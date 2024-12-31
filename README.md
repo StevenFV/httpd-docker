@@ -1,3 +1,12 @@
+<p>
+  <a href="https://www.docker.com/" target="_blank">
+    <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" width="400" alt="docker-logo">
+  </a>  
+  <a href="https://laravel.com" target="_blank">
+    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="laravel-logo">
+  </a>
+</p>
+
 # http-docker
 
 This project provides a collection of Docker containers designed to streamline local development setups for Laravel
@@ -38,9 +47,10 @@ This setup is ideal for developers who want a pre-configured, containerized deve
     - Configures a Nginx web server using the provided `vhost.conf` file.
     - Supports PHP applications and restricts access to sensitive files.
 
-- **`vhost.conf`**:
-    - Define the Nginx virtual host configuration.
+- **`vhost.exemple.conf`**:
+    - Template file to define the Nginx virtual host configuration.
     - Supports PHP routing and implements basic security rules.
+    - Developers should copy this to `web/vhost.conf` and adjust the values as needed.
 
 - **`.env.example`**:
     - Template file for defining environment variables (e.g., PostgreSQL credentials).
@@ -87,7 +97,19 @@ POSTGRES_PASSWORD=your_password
 POSTGRES_DB=your_database
 ```
 
-### 4. Build and Start the Containers
+### 4. Set Up Nginx vhost.conf file
+
+Create a copy of the `web/vhost.exemple.conf` file and rename it to `web/vhost.conf`.
+
+```shell script
+cp web/vhost.exemple.conf web/vhost.conf
+```
+
+Edit the `web/vhost.conf` file to set the Nginx working directory.
+To do this, rename `NGINX_WORKING_DIR` variable in the root directive.
+You can adjust another config as needed.
+
+### 5. Build and Start the Containers
 
 Use the following command to build and start the Docker containers:
 
@@ -98,7 +120,7 @@ docker-compose up --build -d
 - `--build`: Ensures all Docker containers are rebuilt using the latest configurations.
 - `-d`: Runs the containers in detached mode (in the background).
 
-### 5. Verify Running Containers
+### 6. Verify Running Containers
 
 To verify the running containers, execute:
 
@@ -113,7 +135,7 @@ You should see the following containers running:
 - PostgreSQL (Container name: `postgres17`)
 - Mailpit (Container name: `mailpit12`)
 
-### 6. File and Port Mappings
+### 7. File and Port Mappings
 
 - **PHP (php84)**:
     - Port: `5173` (adjustable in `docker-compose.yml`)
@@ -128,7 +150,7 @@ You should see the following containers running:
     - Web Interface: `http://localhost:8025`
     - SMTP Port: `1025`
 
-### 7. Testing the Setup
+### 8. Testing the Setup
 
 #### Nginx
 
