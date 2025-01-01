@@ -44,7 +44,7 @@ This setup is ideal for developers who want a pre-configured, containerized deve
     - Useful for capturing and testing outgoing emails in development environments.
 
 - **`nginx12.Dockerfile`**:
-    - Configures a Nginx web server using the provided `vhost.conf` file.
+    - Configures a Nginx web server using the provided template `vhost.exemple.conf` file.
     - Supports PHP applications and restricts access to sensitive files.
 
 - **`vhost.exemple.conf`**:
@@ -53,7 +53,7 @@ This setup is ideal for developers who want a pre-configured, containerized deve
     - Developers should copy this to `web/vhost.conf` and adjust the values as needed.
 
 - **`.env.example`**:
-    - Template file for defining environment variables (e.g., PostgreSQL credentials).
+    - Template file for defining environment variables.
     - Developers should copy this to `.env` and adjust the values as needed.
 
 - **`docker-compose.yml`**:
@@ -89,15 +89,9 @@ Create a copy of the `.env.example` file and rename it to `.env`.
 cp .env.example .env
 ```
 
-Edit the `.env` file to set your PostgreSQL credentials and database name as needed:
+Edit the `.env` file to set environment variables as needed.
 
-```dotenv
-POSTGRES_USER=your_username
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=your_database
-```
-
-### 4. Set Up Nginx vhost.conf file
+### 4. Set Up Nginx vhost.conf File
 
 Create a copy of the `web/vhost.exemple.conf` file and rename it to `web/vhost.conf`.
 
@@ -109,15 +103,21 @@ Edit the `web/vhost.conf` file to set the Nginx working directory.
 To do this, rename `NGINX_WORKING_DIR` variable in the root directive.
 You can adjust another config as needed.
 
-### 5. Build and Start the Containers
+### 5. Build and Run the Containers
 
-Use the following command to build and start the Docker containers:
+Use the following command to build and run the Docker containers:
 
 ```shell script
-docker-compose up --build -d
+docker-compose build
 ```
 
-- `--build`: Ensures all Docker containers are rebuilt using the latest configurations.
+- `build`: Ensures all Docker containers are rebuilt using the latest configurations.
+
+```shell script
+docker-compose up -d
+```
+
+- `up`: Runs the containers.
 - `-d`: Runs the containers in detached mode (in the background).
 
 ### 6. Verify Running Containers
@@ -138,7 +138,7 @@ You should see the following containers running:
 ### 7. File and Port Mappings
 
 - **PHP (php84)**:
-    - Port: `5173` (adjustable in `docker-compose.yml`)
+    - Vite Server Port: `5173` (adjustable in `docker-compose.yml`)
 
 - **Nginx (nginx12)**:
     - Port: `8084` (adjustable in `docker-compose.yml`)
@@ -165,7 +165,7 @@ Mailpit’s interface is accessible at `http://localhost:8025`. You can use SMTP
 Connect to the PostgreSQL container using your preferred database client or via the command line:
 
 ```shell script
-psql -h localhost -U your_username -d your_database
+docker exec -u <POSTGRES_USER> -it postgres17 bash
 ```
 
 Use the credentials set in the `.env` file.
@@ -208,7 +208,3 @@ To remove containers, use:
 ```shell script
 docker-compose down --volumes
 ```
-
----
-
-Feel free to extend or modify the configurations to suit your specific project requirements!
