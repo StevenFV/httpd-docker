@@ -1,0 +1,73 @@
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: php84.Dockerfile
+    container_name: php84
+    env_file:
+      - .env
+    working_dir: ${WORKING_DIR}
+    volumes:
+      - ${PROJECTS_PATH_LOCALHOST}:${PROJECTS_PATH_DOCKER}
+    ports:
+      - "5184:5173"
+    networks:
+      - bridge-network
+
+  web:
+    build:
+      context: ./web
+      dockerfile: nginx12.Dockerfile
+    container_name: nginx12
+    env_file:
+      - .env
+    working_dir: ${WORKING_DIR}
+    volumes:
+      - ${PROJECTS_PATH_LOCALHOST}:${PROJECTS_PATH_DOCKER}
+    ports:
+      - "8084:80"
+    networks:
+      - bridge-network
+
+  database:
+    build:
+      context: ./database
+      dockerfile: postgres17.Dockerfile
+    container_name: postgres17
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ${POSTGRES_DATA_PATH_LOCALHOST}:${POSTGRES_DATA_PATH_DOCKER}
+    shm_size: 1g
+    ports:
+      - "5432:5432"
+    networks:
+      - bridge-network
+
+  smtp-server:
+    build:
+      context: ./smtp-server
+      dockerfile: mailpit12.Dockerfile
+    container_name: mailpit12
+    env_file:
+      - .env
+    volumes:
+      - ${MAILPIT_DATA_PATH_LOCALHOST}:${MAILPIT_DATA_PATH_DOCKER}
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    networks:
+      - bridge-network
+
+networks:
+  bridge-network:
+    driver: bridge
