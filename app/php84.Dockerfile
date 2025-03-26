@@ -22,7 +22,7 @@ ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g npm@10.x
+    && npm install -g npm@latest
 
 RUN composer global require laravel/installer && \
     chmod +x /root/.composer/vendor/bin/laravel
