@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_pgsql -j$(nproc) gd
+    && docker-php-ext-install pdo_pgsql -j$(nproc) gd \
+    && docker-php-ext-install sockets
 
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
