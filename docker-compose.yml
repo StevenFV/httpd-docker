@@ -1,5 +1,5 @@
 services:
-  app:
+  app84:
     build:
       context: ./app
       dockerfile: php84.Dockerfile
@@ -14,6 +14,21 @@ services:
     networks:
       - bridge-network
 
+  app85:
+    build:
+      context: ./app
+      dockerfile: php85.Dockerfile
+    container_name: php85
+    env_file:
+      - .env
+    working_dir: ${WORKING_DIR}
+    volumes:
+      - ${PROJECTS_PATH_LOCALHOST}:${PROJECTS_PATH_DOCKER}
+    ports:
+      - "5185:5173"
+    networks:
+      - bridge-network
+
   web:
     build:
       context: ./web
@@ -25,7 +40,8 @@ services:
     volumes:
       - ${PROJECTS_PATH_LOCALHOST}:${PROJECTS_PATH_DOCKER}
     ports:
-      - "8084:80"
+      - "8084:84"
+      - "8085:85"
     networks:
       - bridge-network
 
