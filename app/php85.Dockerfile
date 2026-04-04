@@ -23,7 +23,6 @@ ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g npm@latest \
     && npm install playwright@latest \
     && npx playwright install \
     && npx playwright install-deps
