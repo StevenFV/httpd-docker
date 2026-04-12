@@ -26,7 +26,6 @@ services:
       - ${PROJECTS_PATH_LOCALHOST}:${PROJECTS_PATH_DOCKER}
     ports:
       - "5185:5173"
-      - "8080:8080" # To expose Reverb
     networks:
       - bridge-network
 
