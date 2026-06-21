@@ -21,12 +21,12 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest \
-    && npm install playwright@latest \
-    && npx playwright install \
-    && npx playwright install-deps
+    && npx --yes playwright@latest install-deps
 
 RUN composer global require laravel/installer && \
     chmod +x /root/.composer/vendor/bin/laravel

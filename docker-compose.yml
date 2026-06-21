@@ -6,9 +6,12 @@ services:
     container_name: php84
     env_file:
       - .env
+    environment:
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
     working_dir: ${WORKING_DIR}
     volumes:
       - ${PROJECTS_PATH_LOCALHOST}:${PROJECTS_PATH_DOCKER}
+      - playwright-browsers-84:/ms-playwright
     ports:
       - "5184:5173"
     networks:
@@ -21,9 +24,12 @@ services:
     container_name: php85
     env_file:
       - .env
+    environment:
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
     working_dir: ${WORKING_DIR}
     volumes:
       - ${PROJECTS_PATH_LOCALHOST}:${PROJECTS_PATH_DOCKER}
+      - playwright-browsers-85:/ms-playwright
     ports:
       - "5185:5173"
     networks:
@@ -87,3 +93,7 @@ services:
 networks:
   bridge-network:
     driver: bridge
+
+volumes:
+  playwright-browsers-84:
+  playwright-browsers-85:
